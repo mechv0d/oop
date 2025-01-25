@@ -1,0 +1,38 @@
+{
+  "id": "b0b72e2b7dc9bc7b6f5c3a540e24733d",
+  "name": "Главная библиотека",
+  "address": "г. Барнаул",
+  "clients": [
+    {
+      "id": "4a69d5f08a3f1354bc3cfe16fd12451d",
+      "surname": "Рем",
+      "name": "Сергей",
+      "last_name": "Борисович",
+      "phone_num": "+79339334964"
+    }
+  ],
+  "books": [
+    {
+      "book": {
+        "id": "b86255aeb856f6fe7085d4c71037515e",
+        "title": "Жизнь",
+        "author": "Я",
+        "pages": 51,
+        "publication_date": "12.05.2006",
+        "isbn": "AC951-8524-BVM",
+        "description": "Эгоист.",
+        "genre_tag": "autobiography"
+      },
+      "count": 0
+    }
+  ],
+  "books_requests": [
+    {
+      "id": "466d33ed2c8bb64ef7b4697b438a9f29",
+      "client_id": "4a69d5f08a3f1354bc3cfe16fd12451d",
+      "book_id": "b86255aeb856f6fe7085d4c71037515e",
+      "start_date": "2025-01-25",
+      "end_date": "2025-01-28"
+    }
+  ]
+}

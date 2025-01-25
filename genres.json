@@ -1,0 +1,17 @@
+[
+    {
+        "tag": "",
+        "title": "Не указан",
+        "for_adults_only": false
+    },
+    {
+        "tag": "default",
+        "title": "Стандартный",
+        "for_adults_only": false
+    },
+    {
+        "tag": "autobiography",
+        "title": "Автобиография",
+        "for_adults_only": false
+    }
+]
