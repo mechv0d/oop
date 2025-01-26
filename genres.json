@@ -13,5 +13,15 @@
         "tag": "autobiography",
         "title": "Автобиография",
         "for_adults_only": false
+    },
+    {
+        "tag": "dystopia",
+        "title": "Антиутопия",
+        "for_adults_only": false
+    },
+    {
+        "tag": "social",
+        "title": "Обществознание",
+        "for_adults_only": false
     }
 ]
