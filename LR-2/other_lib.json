@@ -1,0 +1,58 @@
+{
+  "id": "7f9665cb458515629b50c94da8ba023c",
+  "name": "Вторая библиотека",
+  "address": "ул. Пушкина, д. Колотушкина",
+  "clients": [
+    {
+      "id": "c49062a13c160bff8606a37a81943a7c",
+      "surname": "Трамп",
+      "name": "Дональд",
+      "last_name": "",
+      "phone_num": "+71234567879"
+    },
+    {
+      "id": "9815124d9062806197f62a550df568da",
+      "surname": "Байден",
+      "name": "Джозеф",
+      "last_name": "",
+      "phone_num": "+79139135566"
+    }
+  ],
+  "books": [
+    {
+      "book": {
+        "id": "f7cfe53cdab34bea74f0f8a3d55ff3cd",
+        "title": "Герой нашего времени",
+        "author": "Лермонтов",
+        "pages": 111,
+        "publication_date": "long time ago",
+        "isbn": "None",
+        "description": "test",
+        "genre_tag": ""
+      },
+      "count": 24
+    },
+    {
+      "book": {
+        "id": "bc8893ef920f92ecb87ac319f338404c",
+        "title": "Конституция Российской Федерации. Новая редакция (с комментариями Конституционного Суда РФ)",
+        "author": "Проспект",
+        "pages": 120,
+        "publication_date": "2022",
+        "isbn": "978-5-392-32914-4, 978-5-392-33207-6, 9785392343942, 978-5-392-35252-4, 978-5-392-36498-5, 978-5-392-37237-9 ",
+        "description": "",
+        "genre_tag": "social"
+      },
+      "count": 10
+    }
+  ],
+  "books_requests": [
+    {
+      "id": "d7ba9024e2618ae9188870b30e2e7111",
+      "client_id": "9815124d9062806197f62a550df568da",
+      "book_id": "f7cfe53cdab34bea74f0f8a3d55ff3cd",
+      "start_date": "2025-01-26",
+      "end_date": "2025-02-10"
+    }
+  ]
+}
