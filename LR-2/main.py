@@ -51,6 +51,8 @@ with open('test_lib.json', 'r', encoding='utf-8') as f:
         clients = [con.create_client('Трамп', 'Дональд', '', '+71234567879')]
         other_lib.add_client(clients[0])
 
+        # print(f'\n\n{clients[0] in other_lib}\n{books[0] in other_lib}\n{books[0] == books[1]}\n\n')
+
         # Посмотрим, добавились ли они
         other_lib.print_clients(name='нальд')
         other_lib.print_books(title='конст')
