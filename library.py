@@ -3,7 +3,7 @@ from hashlib import md5
 from datetime import datetime, date, timedelta
 import typing as ty
 import json
-
+from abc import ABC
 
 # region Classes
 class Client(BaseModel):
@@ -42,9 +42,13 @@ class Client(BaseModel):
 
         return Client(id=None, surname=ask_dict[0], name=ask_dict[1], last_name=ask_dict[2], phone_num=ask_dict[3], )
 
-    def dump_json(self):
-        return self.model_dump_json(indent=2)
-
+    def dump_json(self) -> str:
+        try:
+            json_str = self.model_dump_json(indent=2)
+        except ValidationError as e:
+            json_str = '{}'
+            print(f'Client dump has some errors! Returning empty dictionary.\n{e}')
+        return json_str
     # endregion
 
 
@@ -75,6 +79,9 @@ class Book(BaseModel):
         if self.id is None:
             self.id = md5(self.__hash_str).hexdigest()
 
+    def __eq__(self, other):
+        return self.id == other.id
+
     @staticmethod
     def create_from_console():
         fields = ['Название', 'Автор', 'Страницы', 'Дата публикации', 'ISBN', 'Описание',
@@ -103,6 +110,11 @@ class Library(BaseModel):
 
         def __iter__(self):
             return iter([self.book, self.count])
+
+        def __contains__(self, item):
+            if isinstance(item, Book):
+                return self.book == item
+            return False
 
     class BookRequest(BaseModel):
         id: str | None
@@ -154,6 +166,19 @@ class Library(BaseModel):
         super().__init__(**data)
         if self.id is None:
             self.id = md5(self.__hash_str).hexdigest()
+
+    def __contains__(self, item):
+        if isinstance(item, Book):
+            for archive in self.books:
+                if item in archive:
+                    return True
+            return False
+
+        elif isinstance(item, Client):
+            return item in self.clients
+
+        else:
+            return False
 
     def find_client(self, hash_id: str) -> Client | None:
         for client in self.clients:
@@ -521,4 +546,51 @@ class ConstructorExtensions:
     @staticmethod
     def create_library(name: str, address: str) -> Library:
         return Library(id=None, name=name, address=address, books=[], clients=[], books_requests=[])
+
+
+# Объект, с которым заключено юридическое соглашение на сотрудничество
+class LegalCoopObject(ABC):
+    name: str
+    kpp: str  # Код причины постановки на учет
+    ogrn: str  # Основной государственный регистрационный номер
+    legal_address: str  # Адрес, указанный в ЕГРЮЛ
+    actual_address: str
+    phone: str
+    email: str
+    registration_date: datetime
+    status: str  # "Действующее", "Ликвидировано", "В процессе банкротства"
+    notes: str
+
+    def __init__(self,
+                 name: str,
+                 kpp: str,
+                 ogrn: str,
+                 legal_address: str,
+                 actual_address: str,
+                 phone: str,
+                 email: str,
+                 registration_date: datetime,
+                 status: str,
+                 notes: str
+                 ):
+        self.name = name
+        self.kpp = kpp
+        self.ogrn = ogrn
+        self.legal_address = legal_address
+        self.actual_address = actual_address
+        self.phone = phone
+        self.email = email
+        self.registration_date = registration_date
+        self.status = status
+        self.notes = notes
+
+
+class School(LegalCoopObject):
+    director_name: str
+    contact_person: str
+
+    def __init__(self, name: str, kpp: str, ogrn: str, legal_address: str, phone: str,
+                 email: str, registration_date: datetime, status: str, notes: str):
+        super().__init__(name, kpp, ogrn, legal_address, legal_address, phone, email, registration_date, status, notes)
+
 # endregion
