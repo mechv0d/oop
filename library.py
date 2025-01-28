@@ -5,6 +5,7 @@ import typing as ty
 import json
 from abc import ABC
 
+
 # region Classes
 class Client(BaseModel):
     # region Variables
@@ -590,7 +591,10 @@ class School(LegalCoopObject):
     contact_person: str
 
     def __init__(self, name: str, kpp: str, ogrn: str, legal_address: str, phone: str,
-                 email: str, registration_date: datetime, status: str, notes: str):
+                 email: str, registration_date: datetime, status: str, notes: str, director_name: str,
+                 contact_person: str):
         super().__init__(name, kpp, ogrn, legal_address, legal_address, phone, email, registration_date, status, notes)
+        self.director_name = director_name
+        self.contact_person = contact_person
 
 # endregion
