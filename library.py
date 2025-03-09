@@ -44,12 +44,15 @@ class Client(BaseModel):
         return Client(id=None, surname=ask_dict[0], name=ask_dict[1], last_name=ask_dict[2], phone_num=ask_dict[3], )
 
     def dump_json(self) -> str:
+        json_str = '{}'
         try:
             json_str = self.model_dump_json(indent=2)
         except ValidationError as e:
-            json_str = '{}'
             print(f'Client dump has some errors! Returning empty dictionary.\n{e}')
-        return json_str
+        except LibraryIOError as e:
+            print(e)
+        finally:
+            return json_str
     # endregion
 
 
@@ -334,8 +337,7 @@ class Library(BaseModel):
 
             return request
         else:
-            print('Возникла непредвиденная ошибка при создании запроса!\n')
-            return None
+            raise SimpleError('Возникла непредвиденная ошибка при создании запроса!\n')
 
     def dump_json(self):
         return self.model_dump_json(indent=2)
@@ -551,16 +553,16 @@ class ConstructorExtensions:
 
 # Объект, с которым заключено юридическое соглашение на сотрудничество
 class LegalCoopObject(ABC):
-    name: str
-    kpp: str  # Код причины постановки на учет
-    ogrn: str  # Основной государственный регистрационный номер
-    legal_address: str  # Адрес, указанный в ЕГРЮЛ
-    actual_address: str
-    phone: str
-    email: str
-    registration_date: datetime
-    status: str  # "Действующее", "Ликвидировано", "В процессе банкротства"
-    notes: str
+    __name: str
+    __kpp: str  # Код причины постановки на учет
+    __ogrn: str  # Основной государственный регистрационный номер
+    __legal_address: str  # Адрес, указанный в ЕГРЮЛ
+    __actual_address: str
+    __phone: str
+    __email: str
+    __registration_date: datetime
+    __status: str  # "Действующее", "Ликвидировано", "В процессе банкротства"
+    __notes: str
 
     def __init__(self,
                  name: str,
@@ -574,27 +576,52 @@ class LegalCoopObject(ABC):
                  status: str,
                  notes: str
                  ):
-        self.name = name
-        self.kpp = kpp
-        self.ogrn = ogrn
-        self.legal_address = legal_address
-        self.actual_address = actual_address
-        self.phone = phone
-        self.email = email
-        self.registration_date = registration_date
-        self.status = status
-        self.notes = notes
+        self.__name = name
+        self.__kpp = kpp
+        self.__ogrn = ogrn
+        self.__legal_address = legal_address
+        self.__actual_address = actual_address
+        self.__phone = phone
+        self.__email = email
+        self.__registration_date = registration_date
+        self.__status = status
+        self.__notes = notes
 
 
 class School(LegalCoopObject):
-    director_name: str
-    contact_person: str
+    __director_name: str
+    __contact_person: str
 
     def __init__(self, name: str, kpp: str, ogrn: str, legal_address: str, phone: str,
                  email: str, registration_date: datetime, status: str, notes: str, director_name: str,
                  contact_person: str):
         super().__init__(name, kpp, ogrn, legal_address, legal_address, phone, email, registration_date, status, notes)
-        self.director_name = director_name
-        self.contact_person = contact_person
+        self.__director_name = director_name
+        self.__contact_person = contact_person
 
+
+# endregion
+
+# region Exceptions
+class SimpleError(BaseException):
+    """Базовая ошибка"""
+    __message: str
+
+    def __init__(self, message="Произошла некоторая ошибка"):
+        self.__message = message
+        super().__init__(self.__message)
+
+    def __str__(self):
+        return f"SimpleError: {self.__message}"
+
+
+class LibraryIOError(SimpleError):
+    """Класс для конкретных ошибок, например, ошибка ввода."""
+
+    def __init__(self, message="Некорректный ввод/вывод данных"):
+        self.__message = message
+        super().__init__(self.__message)
+
+    def __str__(self):
+        return f"SpecificError: {self.__message}"
 # endregion
