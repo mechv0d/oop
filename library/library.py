@@ -605,6 +605,7 @@ class School(LegalCoopObject):
 # region Exceptions
 class SimpleError(BaseException):
     """Базовая ошибка"""
+
     __message: str
 
     def __init__(self, message="Произошла некоторая ошибка"):
