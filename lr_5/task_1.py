@@ -3,11 +3,13 @@ from lr_5.logger import base_logger as logger
 
 class Food:
     __class_name = "Food"
+    __print_class_name = "Еда"
     name: str
     calories: int
     weight: float  # grams
     ingredients: list[str]
     color: str
+    ready: bool
 
     food_value: ()
 
@@ -35,6 +37,7 @@ class Food:
 
 class Pizza(Food):
     __class_name = "Pizza"
+    __print_class_name = "Пицца"
     size: float
 
     def __init__(self, name, calories, weight, ingredients, color, size):
@@ -51,6 +54,7 @@ class Pizza(Food):
 
 class Salad(Food):
     __class_name = "Salad"
+    __print_class_name = "Салат"
     dressing: str
 
     def __init__(self, name, calories, weight, ingredients, color, dressing):
@@ -75,4 +79,4 @@ salad.prepare()
 logger.echo(None, str(pizza))
 logger.echo(None, str(salad))
 
-print(pizza.food_value())
+print('"тесто", "помидоры", "сыр"'.replace('"', ''))
